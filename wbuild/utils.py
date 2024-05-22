@@ -278,9 +278,13 @@ class Config:
 
         parser = get_argument_parser()
         self.args = parser.parse_args(self.sysargs)
+        print(self.args)
         self.path = self.args.configfile
+        print(self.path)
         self.snakefile = self.args.snakefile
+        print(self.snakefile)
         self.config = parse_config(self.args)
+        print(self.config)
 
 
         if self.path is None:
