@@ -9,7 +9,7 @@ import operator
 import re
 from functools import reduce
 from snakemake.logging import logger
-from snakemake import get_argument_parser, parse_config, SNAKEFILE_CHOICES
+from snakemake.cli import get_argument_parser, parse_args, parse_config, SNAKEFILE_CHOICES
 
 class bcolors:
     HEADER = '\033[95m'
@@ -272,16 +272,22 @@ class Config:
             self.snakefile = self.instance.snakefile
             self.snakeroot = self.instance.snakeroot
             return
+        print("Passed first check. ")
 
         # we dont need the first argument aka call to snakemake
+        print(sys.argv[1:])
         self.sysargs = sys.argv[1:]
-
+        
         parser = get_argument_parser()
         self.args = parser.parse_args(self.sysargs)
+        print(self.args)
         self.path = self.args.configfile
+        print(self.path)
         self.snakefile = self.args.snakefile
-        self.config = parse_config(self.args)
-
+        print(self.snakefile)
+        self.config = parse_config(self.args.config)
+        print(self.config)
+        print("Passed initial variable sets")
 
         if self.path is None:
             for p in ["wbuild.yaml", "config.yaml", "wBuild.yaml"]:
@@ -295,6 +301,7 @@ class Config:
                 self.path = self.path[0]
             self.path=os.path.abspath(self.path)
 
+        print("Passed pathing checks")
         # this is taken from the snakemake main file
         if self.snakefile is None:
             for p in SNAKEFILE_CHOICES:
@@ -305,6 +312,7 @@ class Config:
 
         #load defaults
         self.loadDefaultConfiguration()
+        print("Passed load default config")
 
         try:
             fh = open(self.path, "r")
@@ -323,6 +331,7 @@ class Config:
         readme = self.get("readmePath")
         if not readme.endswith(".md"):
             raise ValueError("Readme file is '{}' but should end with '.md'".format(readme))
+        print("Done initializing")
 
     def loadDefaultConfiguration(self):
         # Readme
