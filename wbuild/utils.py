@@ -285,9 +285,15 @@ class Config:
         print(self.path)
         self.snakefile = self.args.snakefile
         print(self.snakefile)
+<<<<<<< HEAD
         self.config = parse_config(self.args.config)
         print(self.config)
         print("Passed initial variable sets")
+=======
+        self.config = parse_config(self.args)
+        print(self.config)
+
+>>>>>>> support_benchmark
 
         if self.path is None:
             for p in ["wbuild.yaml", "config.yaml", "wBuild.yaml"]:

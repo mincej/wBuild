@@ -27,6 +27,7 @@ SNAKEMAKE_FIELDS = ["input",
                     "priority",
                     "version",
                     "log",
+                    "benchmark",
                     "message",
                     "run",
                     "shell",
@@ -123,7 +124,7 @@ def ensureString(elem):
             return ", ".join(elem)
     elif type(elem) is str:
         if "," not in elem:
-            return "'" + elem + "'"
+            return escapeSMString(elem)
         else:
             return elem
     elif type(elem) is int:
